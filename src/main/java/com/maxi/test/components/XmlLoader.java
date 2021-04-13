@@ -17,7 +17,8 @@ import java.io.IOException;
 
 @Component
 public class XmlLoader {
-    public static void load(File file_in, XmlProcessor processor, Integer batchSize) throws IOException,
+    public static void load(File file_in, XmlProcessor processor,
+                            @Value("${loc.hibernate.batch-size:1}") Integer batchSize) throws IOException,
             ParserConfigurationException, SAXException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         DefaultHandler handler = new SaxHandler(processor, batchSize);

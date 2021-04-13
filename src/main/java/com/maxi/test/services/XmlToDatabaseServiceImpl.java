@@ -7,7 +7,8 @@ import com.maxi.test.dao.check.Check;
 import com.maxi.test.dao.check.CheckService;
 import com.maxi.test.dao.salelines.SaleLine;
 import com.maxi.test.dao.salelines.SaleLineService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,7 @@ import java.util.Date;
 @Scope("prototype")
 public class XmlToDatabaseServiceImpl implements XmlToDatabaseService {
 
+    static final Logger logger = LoggerFactory.getLogger(XmlToDatabaseServiceImpl.class);
 
     private final CheckService checkService;
 
@@ -82,37 +84,20 @@ public class XmlToDatabaseServiceImpl implements XmlToDatabaseService {
         for (File file : files) {
             File bufPath = move(file, pathBuf).toFile();
             try {
-                System.out.println("Начинаю парсинг " + file.getName() + " Время начала " + new Date());
+                logger.info("Начинаю парсинг " + file.getName() + " Время начала " + new Date());
                 XmlLoader.load(
                         bufPath,
                         (XmlProcessor) context.getBean("xmlSaver"),
                         batchSize
                 );
                 move(bufPath, pathOut);
-                System.out.println("Заканчиваю парсинг " + file.getName() + " Время окончания " + new Date());
+                logger.info("Заканчиваю парсинг " + file.getName() + " Время окончания " + new Date());
             }
             catch (FileNotFoundException ignored) {}
             catch (Exception e) {
-                writeLog(pathIn, file.getName(), e.getCause().toString());
+                logger.error(e.toString());
                 System.out.println("Заканчиваю парсинг " + file.getName() + " c ошибкой. Время окончания " + new Date());
             }
-        }
-    }
-
-    public void writeLog(File path, String fileName, String log) {
-        try {
-            Path finalPath = Paths.get(path.toString(),
-                    "123",
-                            fileName
-                            + "-"
-                            + new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss").format(new Date())
-                            + ".log");
-            FileWriter writer = new FileWriter(finalPath.toFile());
-            writer.write(log);
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

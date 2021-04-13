@@ -68,6 +68,7 @@ public class SaleController {
     public String postTopThingByKpp(@RequestParam("kpp") Integer kpp, Model model) {
         List<Object> res = saleLineService.getTopThreeThings(kpp);
         model.addAttribute("positions", res);
+        model.addAttribute("kpp", kpp);
         return "topThingsByKpp";
     }
 

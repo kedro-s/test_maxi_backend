@@ -29,16 +29,12 @@ public class SaxHandler extends DefaultHandler{
     private int counter = 0;
     private String content = null;
 
-    private Integer batch;
+    private final XmlProcessor processor;
+    private final Integer batchSize;
 
-    private final XmlProcessor proccessor;
-
-    public SaxHandler(XmlProcessor processor, Integer batch) {
-        this.proccessor = processor;
-        if (batch != null)
-            this.batch = batch;
-        else
-            this.batch = 1;
+    public SaxHandler(XmlProcessor processor, @Value("${loc.hibernate.batch-size:1}") Integer batchSize) {
+        this.batchSize = batchSize;
+        this.processor = processor;
     }
 
     @Override
@@ -68,8 +64,8 @@ public class SaxHandler extends DefaultHandler{
         switch (qName) {
             case "SALE":
                 counter++;
-                if (counter >= batch) {
-                    proccessor.process(check, lines);
+                if (counter >= batchSize) {
+                    processor.process(check, lines);
                     lines.clear();
                     counter = 0;
                 }

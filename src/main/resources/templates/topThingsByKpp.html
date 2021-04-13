@@ -10,6 +10,7 @@
         }
         td {
             width: 300px;
+            text-align: center;
         }
     </style>
 </head>
@@ -22,6 +23,15 @@
     </form>
 
     <br><br>
+
+
+    <div th:if="${kpp == null}">
+        <p>Номер карты не введен!</p>
+    </div>
+    <div th:unless="${kpp == null}">
+        <p>Введенный номер карты: <span th:text="${kpp}"></span></p>
+    </div>
+
 
     <table th:if="${positions != null and positions.size() > 0}" align="center" style="margin: 0px auto;">
         <tr>
