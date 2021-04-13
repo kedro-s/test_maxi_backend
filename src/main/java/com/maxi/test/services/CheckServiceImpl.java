@@ -54,7 +54,6 @@ public class CheckServiceImpl implements CheckService {
     @Override
     @Transactional
     public void saveAll(List<Check> checks) {
-        checkRepository.flush();
         checkRepository.saveAll(checks);
     }
 }

@@ -42,7 +42,6 @@ public class SaleLine {
     }
 
     public SaleLine(Integer articleNumber, String name, Integer quantity, Double priceOne) {
-        this.check = check;
         this.articleNumber = articleNumber;
         this.name = name;
         this.quantity = quantity;

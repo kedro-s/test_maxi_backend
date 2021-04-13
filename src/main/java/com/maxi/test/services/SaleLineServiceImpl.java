@@ -32,7 +32,6 @@ public class SaleLineServiceImpl implements SaleLineService {
     @Override
     @Transactional
     public void saveAll(Iterable<SaleLine> lines) {
-        saleLinesRepository.flush();
         saleLinesRepository.saveAll(lines);
     }
 
