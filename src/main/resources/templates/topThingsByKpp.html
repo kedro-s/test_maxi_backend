@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        tr {
+            width: 1000px;
+        }
+        td {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <a href="/test/">На главную</a>
+    <form action="/test/topThingsByKpp" method="post" enctype="multipart/form-data">
+        <label for="kpp">Номер карты: </label>
+        <input type="number" name="kpp" id="kpp" required>
+        <input type="submit" value="Отправить">
+    </form>
+
+    <br><br>
+
+    <table th:if="${positions != null and positions.size() > 0}" align="center" style="margin: 0px auto;">
+        <tr>
+            <th>Артикул</th>
+            <th>Название</th>
+            <th>Количество</th>
+        </tr>
+        <th:block th:each="position : ${positions}">
+            <tr>
+                <td th:utext="${position[0]}"></td>
+                <td th:utext="${position[1]}"></td>
+                <td th:utext="${position[2]}"></td>
+            </tr>
+        </th:block>
+    </table>
+</body>
+</html>
